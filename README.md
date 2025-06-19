@@ -2,7 +2,8 @@
 
 ## Overview
 
-Partition Quest is a console-based educational game that challenges players to find all possible partitions (sum combinations) of numbers according to specific rules, inspired by the Hardy-Ramanujan asymptotic formula for integer partitions.
+Partition Quest is a terminal-based educational game for PC that challenges players to find all possible partitions (sum combinations) of numbers according to specific rules. 
+The idea for the game was inspired by the Hardy-Ramanujan partition formula and its history.
 
 ## Features
 
