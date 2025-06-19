@@ -96,4 +96,22 @@ public class Puzzle
 
         return true;
     }
+    
+    public bool ValidatePartition(Partition partition)
+    {
+        if (partition.Numbers.Sum() != TargetNumber)
+            return false;
+
+        var hasDuplicates = partition.Numbers.Count != partition.Numbers.Distinct().Count();
+        if (DistinctNumbers && hasDuplicates)
+            return false;
+
+        if (OddNumbersOnly && partition.Numbers.Any(num => num % 2 == 0))
+            return false;
+
+        if (RequiredCount.HasValue && partition.Numbers.Count != RequiredCount.Value)
+            return false;
+
+        return !ExcludedNumber.HasValue || !partition.Numbers.Contains(ExcludedNumber.Value);
+    }
 }
