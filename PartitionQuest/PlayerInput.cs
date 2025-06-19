@@ -6,7 +6,14 @@ namespace PartitionQuest;
 
 public class PlayerInput
 {
-    public static List<Partition> GetManualPartition(int targetNumber, IInputProvider inputProvider)
+    private readonly IInputProvider _inputProvider;
+
+    public PlayerInput(IInputProvider inputProvider)
+    {
+        _inputProvider = inputProvider;
+    }
+    
+    public List<Partition> GetManualPartition(int targetNumber)
     {
         Console.WriteLine($"\nСобираем разбиение для числа {targetNumber}. Вводите числа по одному, 0 для завершения:");
 
@@ -15,7 +22,7 @@ public class PlayerInput
 
         while (sum < targetNumber)
         {
-            int num = inputProvider.ReadNumber($"Текущая сумма: {sum}. Осталось: {targetNumber - sum}. Введите число: ");
+            int num = _inputProvider.ReadNumber($"Текущая сумма: {sum}. Осталось: {targetNumber - sum}. Введите число: ");
             if (num == 0)
             {
                 if (sum == targetNumber)
@@ -39,14 +46,14 @@ public class PlayerInput
         return [new(numbers)];
     }
 
-    public static List<Partition> GetMultiplePartitions(int targetNumber, int count, IInputProvider inputProvider)
+    public List<Partition> GetMultiplePartitions(int targetNumber, int count)
     {
         var partitions = new List<Partition>();
         int i = 0;
         while (i < count)
         {
             Console.WriteLine($"\nРазбиение #{i + 1}:");
-            var partition = GetManualPartition(targetNumber, inputProvider)[0];
+            var partition = GetManualPartition(targetNumber)[0];
             if (partitions.Contains(partition))
             {
                 Console.WriteLine("Такое разбиение уже было введено! Введите другое.");
@@ -56,27 +63,5 @@ public class PlayerInput
             i++;
         }
         return partitions;
-    }
-
-    public static bool ValidatePartition(Partition partition, Puzzle puzzle)
-    {
-        if (partition.Numbers.Sum() != puzzle.TargetNumber)
-            return false;
-
-        if (puzzle.DistinctNumbers && HasDuplicates(partition.Numbers))
-            return false;
-
-        if (puzzle.OddNumbersOnly && partition.Numbers.Any(num => num % 2 == 0))
-            return false;
-
-        if (puzzle.RequiredCount.HasValue && partition.Numbers.Count != puzzle.RequiredCount.Value)
-            return false;
-
-        return !puzzle.ExcludedNumber.HasValue || !partition.Numbers.Contains(puzzle.ExcludedNumber.Value);
-    }
-
-    private static bool HasDuplicates(List<int> numbers)
-    {
-        return numbers.Count != numbers.Distinct().Count();
     }
 }

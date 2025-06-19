@@ -5,16 +5,16 @@ namespace PartitionQuest;
 
 public class GameManager
 {
-    private readonly IInputProvider _inputProvider;
+    private readonly PlayerInput _playerInput;
     private readonly List<Puzzle> _puzzles = new();
     private int _currentPuzzleIndex;
     private int _score;
 
     public GameManager(IInputProvider inputProvider)
     {
-        _inputProvider = inputProvider;
+        _playerInput = new PlayerInput(inputProvider);
     }
-
+    
     public void AddPuzzle(Puzzle puzzle)
     {
         _puzzles.Add(puzzle);
@@ -27,7 +27,7 @@ public class GameManager
 
         foreach (var puzzle in _puzzles)
         {
-            PlayPuzzle(puzzle, _inputProvider);
+            PlayPuzzle(puzzle);
             _currentPuzzleIndex++;
 
             if (_currentPuzzleIndex < _puzzles.Count)
@@ -39,7 +39,7 @@ public class GameManager
         Console.WriteLine($"\nИгра завершена! Ваш итоговый счет: {_score} из {_puzzles.Count}");
     }
 
-    private void PlayPuzzle(Puzzle puzzle, IInputProvider inputProvider)
+    private void PlayPuzzle(Puzzle puzzle)
     {
         Console.WriteLine($"=== Задание {_currentPuzzleIndex + 1} ===");
         Console.WriteLine(GetPuzzleDescription(puzzle));
@@ -51,17 +51,17 @@ public class GameManager
         {
             int requiredCount = puzzle.CorrectPartitions.Count;
             Console.WriteLine($"\nВам нужно найти все {requiredCount} разбиений.");
-            playerPartitions = PlayerInput.GetMultiplePartitions(puzzle.TargetNumber, requiredCount, inputProvider);
+            playerPartitions = _playerInput.GetMultiplePartitions(puzzle.TargetNumber, requiredCount);
         }
         else
         {
-            playerPartitions = PlayerInput.GetManualPartition(puzzle.TargetNumber, inputProvider);
+            playerPartitions = _playerInput.GetManualPartition(puzzle.TargetNumber);
         }
 
         bool isValid = true;
         foreach (var partition in playerPartitions)
         {
-            if (PlayerInput.ValidatePartition(partition, puzzle))
+            if (puzzle.ValidatePartition(partition))
                 continue;
 
             Console.WriteLine($"Разбиение {partition} не соответствует условиям задачи!");

@@ -2,21 +2,18 @@
 
 public class Partition
 {
-    public List<int> Numbers { get; }
+    private readonly List<int> _numbers;
 
-    public Partition()
-    {
-        Numbers = new List<int>();
-    }
+    public IReadOnlyCollection<int> Numbers => _numbers;
 
     public Partition(IEnumerable<int> numbers)
     {
-        Numbers = new List<int>(numbers);
+        _numbers = new List<int>(numbers);
     }
 
     public override string ToString()
     {
-        return string.Join(" + ", Numbers);
+        return string.Join(" + ", _numbers);
     }
 
     public override bool Equals(object? obj)
@@ -24,17 +21,17 @@ public class Partition
         if (obj is not Partition other) 
             return false;
         
-        if (Numbers.Count != other.Numbers.Count)
+        if (_numbers.Count != other._numbers.Count)
             return false;
 
-        var sortedThis = new List<int>(Numbers).OrderBy(x => x).ToList();
-        var sortedOther = new List<int>(other.Numbers).OrderBy(x => x).ToList();
+        var sortedThis = new List<int>(_numbers).OrderBy(x => x).ToList();
+        var sortedOther = new List<int>(other._numbers).OrderBy(x => x).ToList();
 
         return sortedThis.SequenceEqual(sortedOther);
     }
 
     public override int GetHashCode()
     {
-        return Numbers.OrderBy(x => x).Aggregate(0, (a, b) => a ^ b.GetHashCode());
+        return _numbers.OrderBy(x => x).Aggregate(0, (a, b) => a ^ b.GetHashCode());
     }
 }

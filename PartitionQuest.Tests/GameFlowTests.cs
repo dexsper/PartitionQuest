@@ -29,7 +29,7 @@ public class GameFlowTests
         var puzzle = new Puzzle(5, PuzzleType.Basic);
         var validPartition = new Partition(new List<int> { 3, 2 });
 
-        Assert.IsTrue(PlayerInput.ValidatePartition(validPartition, puzzle));
+        Assert.IsTrue(puzzle.ValidatePartition(validPartition));
     }
 
     [TestMethod]
@@ -44,16 +44,16 @@ public class GameFlowTests
         var valid2 = new Partition(new List<int> { 3, 2 });
         var valid3 = new Partition(new List<int> { 5 });
 
-        Assert.IsFalse(PlayerInput.ValidatePartition(invalid1, puzzle),
+        Assert.IsFalse(puzzle.ValidatePartition(invalid1),
             "Разбиение [2,2,1] должно быть невалидным из-за дубликатов");
-        Assert.IsFalse(PlayerInput.ValidatePartition(invalid2, puzzle),
+        Assert.IsFalse(puzzle.ValidatePartition(invalid2),
             "Разбиение [1,1,3] должно быть невалидным из-за дубликатов");
 
-        Assert.IsTrue(PlayerInput.ValidatePartition(valid1, puzzle),
+        Assert.IsTrue(puzzle.ValidatePartition(valid1),
             "Разбиение [4,1] должно быть валидным");
-        Assert.IsTrue(PlayerInput.ValidatePartition(valid2, puzzle),
+        Assert.IsTrue(puzzle.ValidatePartition(valid2),
             "Разбиение [3,2] должно быть валидным");
-        Assert.IsTrue(PlayerInput.ValidatePartition(valid3, puzzle),
+        Assert.IsTrue(puzzle.ValidatePartition(valid3),
             "Разбиение [5] должно быть валидным");
     }
 
