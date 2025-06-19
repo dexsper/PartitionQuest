@@ -1,7 +1,7 @@
 ﻿using PartitionQuest;
+using PartitionQuest.Input;
 
-var gameManager = new GameManager();
-
+var gameManager = new GameManager(new ConsoleInputProvider());
 
 gameManager.AddPuzzle(new Puzzle(5, PuzzleType.Basic));
 gameManager.AddPuzzle(new Puzzle(6, PuzzleType.OddOnly));
