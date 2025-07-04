@@ -1,24 +1,6 @@
-﻿using PartitionQuest.Input;
-using PartitionQuest.Models;
+﻿using PartitionQuest.Models;
 
 namespace PartitionQuest.Tests;
-
-public class TestInputProvider : IInputProvider
-{
-    private readonly Queue<int> _inputs;
-
-    public TestInputProvider(IEnumerable<int> inputs)
-    {
-        _inputs = new Queue<int>(inputs);
-    }
-
-    public int ReadNumber(string prompt)
-    {
-        if (_inputs.Count == 0)
-            throw new InvalidOperationException("Нет больше тестовых данных для ввода");
-        return _inputs.Dequeue();
-    }
-}
 
 [TestClass]
 public class GameFlowTests
@@ -61,7 +43,7 @@ public class GameFlowTests
     public void GameFlow_DoesNotAcceptDuplicatePartitions()
     {
         var puzzle = new Puzzle(4, PuzzleType.Basic);
-        var testInput = new TestInputProvider(
+        var testInput = new TestInput(
         [
             4, // #1
             3, 1, // #2
@@ -71,19 +53,14 @@ public class GameFlowTests
             1, 1, 1, 1, // #5
         ]);
 
-        var gm = new GameManager(testInput);
-        gm.AddPuzzle(puzzle);
+        var mockDisplay = new MockDisplay();
+        var gm2 = new GameManager(testInput, mockDisplay);
+        gm2.AddPuzzle(puzzle);
+        gm2.StartGame();
 
-        using var sw = new StringWriter();
-        Console.SetOut(sw);
-
-        gm.StartGame();
-        var output = sw.ToString();
-
-        Assert.IsTrue(output.Contains("Такое разбиение уже было введено! Введите другое."),
+        Assert.IsTrue(mockDisplay.Messages.Contains("duplicate"),
             "Дубликат должен быть отклонён");
-        
-        Assert.IsTrue(output.Contains("Поздравляем! Все разбиения верны."),
+        Assert.IsTrue(mockDisplay.Messages.Contains("success"),
             "Должно быть поздравление об успешном завершении");
     }
 }

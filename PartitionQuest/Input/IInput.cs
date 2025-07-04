@@ -1,6 +1,6 @@
 namespace PartitionQuest.Input;
 
-public interface IInputProvider
+public interface IInput
 {
     int ReadNumber(string prompt);
 }

@@ -1,4 +1,5 @@
-﻿using PartitionQuest.Input;
+﻿using PartitionQuest.Display;
+using PartitionQuest.Input;
 using PartitionQuest.Models;
 
 namespace PartitionQuest;
@@ -6,15 +7,17 @@ namespace PartitionQuest;
 public class GameManager
 {
     private readonly PlayerInput _playerInput;
+    private readonly IDisplay _display;
     private readonly List<Puzzle> _puzzles = new();
     private int _currentPuzzleIndex;
     private int _score;
 
-    public GameManager(IInputProvider inputProvider)
+    public GameManager(IInput input, IDisplay display)
     {
-        _playerInput = new PlayerInput(inputProvider);
+        _display = display;
+        _playerInput = new PlayerInput(input, display);
     }
-    
+
     public void AddPuzzle(Puzzle puzzle)
     {
         _puzzles.Add(puzzle);
@@ -22,8 +25,8 @@ public class GameManager
 
     public void StartGame()
     {
-        Console.WriteLine("Добро пожаловать в Partition Quest!");
-        Console.WriteLine("Ваша задача - находить разбиения чисел согласно условиям.\n");
+        _display.ShowWelcome();
+        _display.ShowGameRules();
 
         foreach (var puzzle in _puzzles)
         {
@@ -32,25 +35,63 @@ public class GameManager
 
             if (_currentPuzzleIndex < _puzzles.Count)
             {
-                Console.WriteLine("\nПереходим к следующему заданию...\n");
+                _display.ShowNextPuzzle();
             }
         }
 
-        Console.WriteLine($"\nИгра завершена! Ваш итоговый счет: {_score} из {_puzzles.Count}");
+        _display.ShowFinalScore(_score, _puzzles.Count);
     }
 
     private void PlayPuzzle(Puzzle puzzle)
     {
-        Console.WriteLine($"=== Задание {_currentPuzzleIndex + 1} ===");
-        Console.WriteLine(GetPuzzleDescription(puzzle));
-        Console.WriteLine($"Всего возможных разбиений: {puzzle.CorrectPartitions.Count}");
+        _display.ShowPuzzleHeader(_currentPuzzleIndex + 1);
+        switch (puzzle.Type)
+        {
+            case PuzzleType.Basic:
+            {
+                _display.ShowPuzzleBasic(puzzle.TargetNumber);
+                break;
+            }
+            case PuzzleType.OddOnly:
+            {
+                _display.ShowPuzzleOddOnly(puzzle.TargetNumber);
+                break;
+            }
+            case PuzzleType.DistinctNumbers:
+            {
+                _display.ShowPuzzleDistinct(puzzle.TargetNumber);
+                break;
+            }
+            case PuzzleType.FixedLength:
+            {
+                _display.ShowPuzzleFixedLength(puzzle.TargetNumber, puzzle.RequiredCount!.Value);
+                break;
+            }
+            case PuzzleType.ExcludeNumber:
+            {
+                _display.ShowPuzzleExcludeNumber(puzzle.TargetNumber, puzzle.ExcludedNumber!.Value);
+                break;
+            }
+            case PuzzleType.Combination:
+            {
+                _display.ShowPuzzleCombination(
+                    puzzle.TargetNumber,
+                    puzzle.OddNumbersOnly,
+                    puzzle.DistinctNumbers,
+                    puzzle.RequiredCount,
+                    puzzle.ExcludedNumber
+                );
+                break;
+            }
+        }
+
+        _display.ShowTotalPartitions(puzzle.CorrectPartitions.Count);
 
         List<Partition> playerPartitions;
-
         if (puzzle.Type is PuzzleType.Basic or PuzzleType.OddOnly or PuzzleType.DistinctNumbers or PuzzleType.ExcludeNumber)
         {
             int requiredCount = puzzle.CorrectPartitions.Count;
-            Console.WriteLine($"\nВам нужно найти все {requiredCount} разбиений.");
+            _display.ShowNeedAllPartitions(requiredCount);
             playerPartitions = _playerInput.GetMultiplePartitions(puzzle.TargetNumber, requiredCount);
         }
         else
@@ -64,56 +105,19 @@ public class GameManager
             if (puzzle.ValidatePartition(partition))
                 continue;
 
-            Console.WriteLine($"Разбиение {partition} не соответствует условиям задачи!");
+            _display.ShowPartitionInvalid(partition.ToString());
             isValid = false;
             break;
         }
 
         if (isValid && puzzle.CheckSolution(playerPartitions))
         {
-            Console.WriteLine("\nПоздравляем! Все разбиения верны.");
+            _display.ShowSuccess();
             _score++;
         }
         else
         {
-            Console.WriteLine("\nК сожалению, есть ошибки. Вот правильные разбиения:");
-            foreach (var correctPart in puzzle.CorrectPartitions)
-            {
-                Console.WriteLine(correctPart);
-            }
+            _display.ShowFailure(puzzle.CorrectPartitions.Select(p => p.ToString()));
         }
-    }
-
-    private string GetPuzzleDescription(Puzzle puzzle)
-    {
-        return puzzle.Type switch
-        {
-            PuzzleType.Basic => $"Разбейте число {puzzle.TargetNumber} на сумму положительных целых чисел.",
-            PuzzleType.OddOnly => $"Разбейте число {puzzle.TargetNumber} на сумму нечетных чисел.",
-            PuzzleType.DistinctNumbers => $"Разбейте число {puzzle.TargetNumber} на сумму различных чисел.",
-            PuzzleType.FixedLength => $"Разбейте число {puzzle.TargetNumber} на {puzzle.RequiredCount} чисел.",
-            PuzzleType.ExcludeNumber => $"Разбейте число {puzzle.TargetNumber} без использования числа {puzzle.ExcludedNumber}.",
-            PuzzleType.Combination => GetCombinedDescription(puzzle),
-            _ => "Неизвестный тип головоломки."
-        };
-    }
-
-    private string GetCombinedDescription(Puzzle puzzle)
-    {
-        var desc = $"Разбейте число {puzzle.TargetNumber} на сумму чисел с условиями:";
-
-        if (puzzle.OddNumbersOnly)
-            desc += "\n- Только нечетные числа";
-
-        if (puzzle.DistinctNumbers)
-            desc += "\n- Все числа должны быть разными";
-
-        if (puzzle.RequiredCount.HasValue)
-            desc += $"\n- Ровно {puzzle.RequiredCount} чисел";
-
-        if (puzzle.ExcludedNumber.HasValue)
-            desc += $"\n- Без использования числа {puzzle.ExcludedNumber}";
-
-        return desc;
     }
 }
