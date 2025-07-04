@@ -1,4 +1,8 @@
-using PartitionQuest.Display;
+using PartitionQuest.Core;
+using PartitionQuest.Core.Display;
+using PartitionQuest.Core.Puzzles;
+
+namespace PartitionQuest.Tests.Mocks;
 
 public class MockDisplay : IDisplay
 {
@@ -7,12 +11,37 @@ public class MockDisplay : IDisplay
     public void ShowWelcome() => Messages.Add("welcome");
     public void ShowGameRules() => Messages.Add("rules");
     public void ShowPuzzleHeader(int puzzleNumber) => Messages.Add($"header:{puzzleNumber}");
-    public void ShowPuzzleBasic(int targetNumber) => Messages.Add($"basic:{targetNumber}");
-    public void ShowPuzzleOddOnly(int targetNumber) => Messages.Add($"odd:{targetNumber}");
-    public void ShowPuzzleDistinct(int targetNumber) => Messages.Add($"distinct:{targetNumber}");
-    public void ShowPuzzleFixedLength(int targetNumber, int count) => Messages.Add($"fixed:{targetNumber}:{count}");
-    public void ShowPuzzleExcludeNumber(int targetNumber, int excluded) => Messages.Add($"exclude:{targetNumber}:{excluded}");
-    public void ShowPuzzleCombination(int targetNumber, bool odd, bool distinct, int? count, int? excluded) => Messages.Add($"comb:{targetNumber}:{odd}:{distinct}:{count}:{excluded}");
+    public void ShowPuzzleDescription(PuzzleDescription model)
+    {
+        switch (model)
+        {
+            case BasicPuzzleDescription b:
+                Messages.Add($"desc:basic:{b.TargetNumber}");
+                break;
+            case OddOnlyPuzzleDescription o:
+                Messages.Add($"desc:odd:{o.TargetNumber}");
+                break;
+            case DistinctNumbersPuzzleDescription d:
+                Messages.Add($"desc:distinct:{d.TargetNumber}");
+                break;
+            case FixedLengthPuzzleDescription f:
+                Messages.Add($"desc:fixed:{f.TargetNumber}:count={f.RequiredCount}");
+                break;
+            case ExcludeNumberPuzzleDescription e:
+                Messages.Add($"desc:exclude:{e.TargetNumber}:exclude={e.ExcludedNumber}");
+                break;
+            case CombinationPuzzleDescription c:
+                var msg = $"desc:comb:{c.TargetNumber}";
+                if (c.OddOnly) msg += ":odd=true";
+                if (c.Distinct) msg += ":distinct=true";
+                if (c.RequiredCount.HasValue) msg += $":count={c.RequiredCount.Value}";
+                if (c.ExcludedNumber.HasValue) msg += $":exclude={c.ExcludedNumber.Value}";
+                Messages.Add(msg);
+                break;
+            default:
+                throw new NotImplementedException($"Неизвестный тип описания: {model.GetType().Name}");
+        }
+    }
     public void ShowNeedAllPartitions(int count) => Messages.Add($"needall:{count}");
     public void ShowTotalPartitions(int count) => Messages.Add($"total:{count}");
     public void ShowPartitionPrompt(int targetNumber, int sum, int remaining) => Messages.Add($"prompt:{targetNumber}:{sum}:{remaining}");
@@ -29,4 +58,4 @@ public class MockDisplay : IDisplay
     public void ShowFinalScore(int score, int total) => Messages.Add($"final:{score}:{total}");
     public void ShowPressAnyKey() => Messages.Add("pressany");
     public void ShowManualPartitionIntro(int targetNumber) => Messages.Add($"manualintro:{targetNumber}");
-} 
+}

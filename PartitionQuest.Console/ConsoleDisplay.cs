@@ -1,4 +1,7 @@
-namespace PartitionQuest.Display;
+using PartitionQuest.Core.Display;
+using PartitionQuest.Core.Puzzles;
+
+namespace PartitionQuest;
 
 public class ConsoleDisplay : IDisplay
 {
@@ -17,43 +20,57 @@ public class ConsoleDisplay : IDisplay
         Console.WriteLine($"=== Задание {puzzleNumber} ===");
     }
 
-    public void ShowPuzzleBasic(int targetNumber)
+    public void ShowPuzzleDescription(PuzzleDescription model)
     {
-        Console.WriteLine($"Разбейте число {targetNumber} на сумму положительных целых чисел.");
-    }
-
-    public void ShowPuzzleOddOnly(int targetNumber)
-    {
-        Console.WriteLine($"Разбейте число {targetNumber} на сумму нечетных чисел.");
-    }
-
-    public void ShowPuzzleDistinct(int targetNumber)
-    {
-        Console.WriteLine($"Разбейте число {targetNumber} на сумму различных чисел.");
-    }
-
-    public void ShowPuzzleFixedLength(int targetNumber, int count)
-    {
-        Console.WriteLine($"Разбейте число {targetNumber} на {count} чисел.");
-    }
-
-    public void ShowPuzzleExcludeNumber(int targetNumber, int excluded)
-    {
-        Console.WriteLine($"Разбейте число {targetNumber} без использования числа {excluded}.");
-    }
-
-    public void ShowPuzzleCombination(int targetNumber, bool odd, bool distinct, int? count, int? excluded)
-    {
-        var desc = $"Разбейте число {targetNumber} на сумму чисел с условиями:";
-        if (odd)
-            desc += "\n- Только нечетные числа";
-        if (distinct)
-            desc += "\n- Все числа должны быть разными";
-        if (count.HasValue)
-            desc += $"\n- Ровно {count.Value} чисел";
-        if (excluded.HasValue)
-            desc += $"\n- Без использования числа {excluded.Value}";
-        Console.WriteLine(desc);
+        switch (model)
+        {
+            case BasicPuzzleDescription b:
+            {
+                Console.WriteLine($"Разбейте число {b.TargetNumber} на сумму положительных целых чисел.");
+                break;
+            }
+            case OddOnlyPuzzleDescription o:
+            {
+                Console.WriteLine($"Разбейте число {o.TargetNumber} на сумму нечетных чисел.");
+                break;
+            }
+            case DistinctNumbersPuzzleDescription d:
+            {
+                Console.WriteLine($"Разбейте число {d.TargetNumber} на сумму различных чисел.");
+                break;
+            }
+            case FixedLengthPuzzleDescription f:
+            {
+                Console.WriteLine($"Разбейте число {f.TargetNumber} на {f.RequiredCount} чисел.");
+                break;
+            }
+            case ExcludeNumberPuzzleDescription e:
+            {
+                Console.WriteLine($"Разбейте число {e.TargetNumber} без использования числа {e.ExcludedNumber}.");
+                break;
+            }
+            case CombinationPuzzleDescription c:
+            {
+                var desc = $"Разбейте число {c.TargetNumber} на сумму чисел с условиями:";
+                
+                if (c.OddOnly)
+                    desc += "\n- Только нечетные числа";
+                
+                if (c.Distinct)
+                    desc += "\n- Все числа должны быть разными";
+                
+                if (c.RequiredCount.HasValue)
+                    desc += $"\n- Ровно {c.RequiredCount.Value} чисел";
+                
+                if (c.ExcludedNumber.HasValue)
+                    desc += $"\n- Без использования числа {c.ExcludedNumber.Value}";
+                
+                Console.WriteLine(desc);
+                break;
+            }
+            default:
+                throw new NotImplementedException($"Неизвестный тип описания: {model.GetType().Name}");
+        }
     }
 
     public void ShowNeedAllPartitions(int count)
@@ -114,6 +131,7 @@ public class ConsoleDisplay : IDisplay
     public void ShowFailure(IEnumerable<string> correctPartitions)
     {
         Console.WriteLine("\nК сожалению, есть ошибки. Вот правильные разбиения:");
+        
         foreach (var part in correctPartitions)
             Console.WriteLine(part);
     }
@@ -128,13 +146,8 @@ public class ConsoleDisplay : IDisplay
         Console.WriteLine($"\nИгра завершена! Ваш итоговый счет: {score} из {total}");
     }
 
-    public void ShowPressAnyKey()
-    {
-        Console.WriteLine("\nНажмите любую клавишу для выхода...");
-    }
-
     public void ShowManualPartitionIntro(int targetNumber)
     {
         Console.WriteLine($"\nСобираем разбиение для числа {targetNumber}. Вводите числа по одному, 0 для завершения:");
     }
-} 
+}

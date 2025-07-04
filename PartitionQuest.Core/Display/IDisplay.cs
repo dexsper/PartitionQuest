@@ -1,16 +1,14 @@
-namespace PartitionQuest.Display;
+using System.Collections.Generic;
+using PartitionQuest.Core.Puzzles;
+
+namespace PartitionQuest.Core.Display;
 
 public interface IDisplay
 {
     void ShowWelcome();
     void ShowGameRules();
     void ShowPuzzleHeader(int puzzleNumber);
-    void ShowPuzzleBasic(int targetNumber);
-    void ShowPuzzleOddOnly(int targetNumber);
-    void ShowPuzzleDistinct(int targetNumber);
-    void ShowPuzzleFixedLength(int targetNumber, int count);
-    void ShowPuzzleExcludeNumber(int targetNumber, int excluded);
-    void ShowPuzzleCombination(int targetNumber, bool odd, bool distinct, int? count, int? excluded);
+    void ShowPuzzleDescription(PuzzleDescription model);
     void ShowNeedAllPartitions(int count);
     void ShowTotalPartitions(int count);
     void ShowPartitionPrompt(int targetNumber, int sum, int remaining);
@@ -25,6 +23,5 @@ public interface IDisplay
     void ShowFailure(IEnumerable<string> correctPartitions);
     void ShowNextPuzzle();
     void ShowFinalScore(int score, int total);
-    void ShowPressAnyKey();
     void ShowManualPartitionIntro(int targetNumber);
 } 

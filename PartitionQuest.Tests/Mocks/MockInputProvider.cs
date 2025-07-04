@@ -1,12 +1,13 @@
-﻿using PartitionQuest.Input;
+﻿using PartitionQuest.Core;
+using PartitionQuest.Core.Input;
 
-namespace PartitionQuest.Tests;
+namespace PartitionQuest.Tests.Mocks;
 
-public class TestInput : IInput
+public class MockInputProvider : IInputProvider
 {
     private readonly Queue<int> _inputs;
 
-    public TestInput(IEnumerable<int> inputs)
+    public MockInputProvider(IEnumerable<int> inputs)
     {
         _inputs = new Queue<int>(inputs);
     }

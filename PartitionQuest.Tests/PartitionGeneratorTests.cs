@@ -1,4 +1,6 @@
-﻿namespace PartitionQuest.Tests;
+﻿using PartitionQuest.Core;
+
+namespace PartitionQuest.Tests;
 
 [TestClass]
 public class PartitionGeneratorTests

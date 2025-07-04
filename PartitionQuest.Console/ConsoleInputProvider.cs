@@ -1,11 +1,13 @@
-using PartitionQuest.Display;
+using PartitionQuest.Core;
+using PartitionQuest.Core.Display;
+using PartitionQuest.Core.Input;
 
-namespace PartitionQuest.Input;
+namespace PartitionQuest;
 
-public class ConsoleInput : IInput
+public class ConsoleInputProvider : IInputProvider
 {
     private readonly IDisplay _display;
-    public ConsoleInput(IDisplay display)
+    public ConsoleInputProvider(IDisplay display)
     {
         _display = display;
     }

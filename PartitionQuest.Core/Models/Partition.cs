@@ -1,4 +1,7 @@
-﻿namespace PartitionQuest.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace PartitionQuest.Core.Models;
 
 public class Partition
 {

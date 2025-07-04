@@ -1,8 +1,11 @@
-﻿using PartitionQuest.Display;
-using PartitionQuest.Input;
-using PartitionQuest.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using PartitionQuest.Core.Display;
+using PartitionQuest.Core.Input;
+using PartitionQuest.Core.Models;
+using PartitionQuest.Core.Puzzles;
 
-namespace PartitionQuest;
+namespace PartitionQuest.Core;
 
 public class GameManager
 {
@@ -12,10 +15,10 @@ public class GameManager
     private int _currentPuzzleIndex;
     private int _score;
 
-    public GameManager(IInput input, IDisplay display)
+    public GameManager(IInputProvider inputProvider, IDisplay display)
     {
         _display = display;
-        _playerInput = new PlayerInput(input, display);
+        _playerInput = new PlayerInput(inputProvider, display);
     }
 
     public void AddPuzzle(Puzzle puzzle)
@@ -45,50 +48,11 @@ public class GameManager
     private void PlayPuzzle(Puzzle puzzle)
     {
         _display.ShowPuzzleHeader(_currentPuzzleIndex + 1);
-        switch (puzzle.Type)
-        {
-            case PuzzleType.Basic:
-            {
-                _display.ShowPuzzleBasic(puzzle.TargetNumber);
-                break;
-            }
-            case PuzzleType.OddOnly:
-            {
-                _display.ShowPuzzleOddOnly(puzzle.TargetNumber);
-                break;
-            }
-            case PuzzleType.DistinctNumbers:
-            {
-                _display.ShowPuzzleDistinct(puzzle.TargetNumber);
-                break;
-            }
-            case PuzzleType.FixedLength:
-            {
-                _display.ShowPuzzleFixedLength(puzzle.TargetNumber, puzzle.RequiredCount!.Value);
-                break;
-            }
-            case PuzzleType.ExcludeNumber:
-            {
-                _display.ShowPuzzleExcludeNumber(puzzle.TargetNumber, puzzle.ExcludedNumber!.Value);
-                break;
-            }
-            case PuzzleType.Combination:
-            {
-                _display.ShowPuzzleCombination(
-                    puzzle.TargetNumber,
-                    puzzle.OddNumbersOnly,
-                    puzzle.DistinctNumbers,
-                    puzzle.RequiredCount,
-                    puzzle.ExcludedNumber
-                );
-                break;
-            }
-        }
-
+        _display.ShowPuzzleDescription(puzzle.GetDescriptionModel());
         _display.ShowTotalPartitions(puzzle.CorrectPartitions.Count);
 
         List<Partition> playerPartitions;
-        if (puzzle.Type is PuzzleType.Basic or PuzzleType.OddOnly or PuzzleType.DistinctNumbers or PuzzleType.ExcludeNumber)
+        if (puzzle is BasicPuzzle or OddOnlyPuzzle or DistinctNumbersPuzzle or ExcludeNumberPuzzle)
         {
             int requiredCount = puzzle.CorrectPartitions.Count;
             _display.ShowNeedAllPartitions(requiredCount);

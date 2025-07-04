@@ -1,6 +1,9 @@
-﻿using PartitionQuest.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using PartitionQuest.Core.Models;
 
-namespace PartitionQuest;
+namespace PartitionQuest.Core;
 
 public class PartitionGenerator
 {

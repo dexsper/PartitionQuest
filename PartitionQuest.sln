@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.12.35521.163 d17.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartitionQuest", "PartitionQuest\PartitionQuest.csproj", "{FF3EDE03-2808-4C1C-8055-E8ED2CF7F322}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartitionQuest.Console", "PartitionQuest.Console\PartitionQuest.Console.csproj", "{FF3EDE03-2808-4C1C-8055-E8ED2CF7F322}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartitionQuest.Tests", "PartitionQuest.Tests\PartitionQuest.Tests.csproj", "{5C136C34-317B-428B-900F-09631E1BFBEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartitionQuest.Core", "PartitionQuest.Core\PartitionQuest.Core.csproj", "{8C542E7C-82E5-4211-8606-24BA86AC45AB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5C136C34-317B-428B-900F-09631E1BFBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C136C34-317B-428B-900F-09631E1BFBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C136C34-317B-428B-900F-09631E1BFBEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C542E7C-82E5-4211-8606-24BA86AC45AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C542E7C-82E5-4211-8606-24BA86AC45AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C542E7C-82E5-4211-8606-24BA86AC45AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C542E7C-82E5-4211-8606-24BA86AC45AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using PartitionQuest.Models;
+﻿using PartitionQuest.Core.Models;
+using PartitionQuest.Core.Puzzles;
 
 namespace PartitionQuest.Tests;
 
@@ -8,7 +9,8 @@ public class PuzzleTests
     [TestMethod]
     public void Puzzle_WithOddOnlyCondition_GeneratesCorrectPartitions()
     {
-        var puzzle = new Puzzle(6, PuzzleType.OddOnly);
+        var puzzle = new OddOnlyPuzzle(6);
+        
         Assert.AreEqual(4, puzzle.CorrectPartitions.Count);
         Assert.IsTrue(puzzle.CorrectPartitions.All(p => p.Numbers.All(n => n % 2 != 0)));
     }
@@ -16,7 +18,7 @@ public class PuzzleTests
     [TestMethod]
     public void CheckSolution_WithCorrectAnswer_ReturnsTrue()
     {
-        var puzzle = new Puzzle(4, PuzzleType.DistinctNumbers);
+        var puzzle = new DistinctNumbersPuzzle(4);
         var correctAnswer = new List<Partition>
         {
             new(new List<int> { 3, 1 }),
@@ -29,7 +31,7 @@ public class PuzzleTests
     [TestMethod]
     public void CheckSolution_WithIncorrectAnswer_ReturnsFalse()
     {
-        var puzzle = new Puzzle(4, PuzzleType.DistinctNumbers);
+        var puzzle = new DistinctNumbersPuzzle(4);
         var incorrectAnswer = new List<Partition>
         {
             new(new List<int> { 2, 2 }),
