@@ -178,3 +178,6 @@ FakesAssemblies/
 
 #rider
 .idea
+
+#vscode
+.vscode/
