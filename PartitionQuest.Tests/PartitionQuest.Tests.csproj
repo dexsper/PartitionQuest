@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\PartitionQuest.Console\PartitionQuest.Console.csproj" />
     <ProjectReference Include="..\PartitionQuest.Core\PartitionQuest.Core.csproj" />
   </ItemGroup>
 
