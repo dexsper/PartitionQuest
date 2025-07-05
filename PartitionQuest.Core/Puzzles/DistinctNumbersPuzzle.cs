@@ -9,6 +9,8 @@ public class DistinctNumbersPuzzleDescription : PuzzleDescription
 
 public class DistinctNumbersPuzzle : Puzzle
 {
+    public override InputMode InputMode => InputMode.AllPartitions;
+
     public DistinctNumbersPuzzle(int targetNumber) : base(targetNumber)
     {
     }

@@ -1,5 +1,4 @@
-﻿using PartitionQuest.Core;
-using PartitionQuest.Core.Input;
+﻿using PartitionQuest.Core.Input;
 
 namespace PartitionQuest.Tests.Mocks;
 
@@ -15,7 +14,8 @@ public class MockInputProvider : IInputProvider
     public int ReadNumber(string prompt)
     {
         if (_inputs.Count == 0)
-            throw new InvalidOperationException("Нет больше тестовых данных для ввода");
+            throw new InvalidOperationException("No more test data to enter");
+        
         return _inputs.Dequeue();
     }
 }

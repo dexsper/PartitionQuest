@@ -9,6 +9,8 @@ public class OddOnlyPuzzleDescription : PuzzleDescription
 
 public class OddOnlyPuzzle : Puzzle
 {
+    public override InputMode InputMode => InputMode.AllPartitions;
+
     public OddOnlyPuzzle(int targetNumber) : base(targetNumber)
     {
     }

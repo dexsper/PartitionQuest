@@ -12,6 +12,8 @@ public class FixedLengthPuzzle : Puzzle
 {
     public int RequiredCount { get; }
 
+    public override InputMode InputMode => InputMode.SinglePartition;
+
     public FixedLengthPuzzle(int targetNumber, int requiredCount) : base(targetNumber)
     {
         RequiredCount = requiredCount;

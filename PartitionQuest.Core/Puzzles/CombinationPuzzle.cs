@@ -18,6 +18,8 @@ public class CombinationPuzzle : Puzzle
     public int? RequiredCount { get; }
     public int? ExcludedNumber { get; }
 
+    public override InputMode InputMode => InputMode.SinglePartition;
+
     public CombinationPuzzle(
         int targetNumber,
         bool oddNumbersOnly = false,

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PartitionQuest.Core.Display;
 using PartitionQuest.Core.Input;
@@ -29,7 +30,6 @@ public class GameManager
     public void StartGame()
     {
         _display.ShowWelcome();
-        _display.ShowGameRules();
 
         foreach (var puzzle in _puzzles)
         {
@@ -47,20 +47,29 @@ public class GameManager
 
     private void PlayPuzzle(Puzzle puzzle)
     {
-        _display.ShowPuzzleHeader(_currentPuzzleIndex + 1);
-        _display.ShowPuzzleDescription(puzzle.GetDescriptionModel());
-        _display.ShowTotalPartitions(puzzle.CorrectPartitions.Count);
+        var current = _currentPuzzleIndex + 1;
+        var total = puzzle.CorrectPartitions.Count;
+
+        _display.ShowPuzzle(current, puzzle.GetDescriptionModel(), total);
 
         List<Partition> playerPartitions;
-        if (puzzle is BasicPuzzle or OddOnlyPuzzle or DistinctNumbersPuzzle or ExcludeNumberPuzzle)
+        switch (puzzle.InputMode)
         {
-            int requiredCount = puzzle.CorrectPartitions.Count;
-            _display.ShowNeedAllPartitions(requiredCount);
-            playerPartitions = _playerInput.GetMultiplePartitions(puzzle.TargetNumber, requiredCount);
-        }
-        else
-        {
-            playerPartitions = _playerInput.GetManualPartition(puzzle.TargetNumber);
+            case InputMode.AllPartitions:
+            {
+                int requiredCount = puzzle.CorrectPartitions.Count;
+
+                _display.ShowNeedAllPartitions(requiredCount);
+                playerPartitions = _playerInput.GetMultiplePartitions(puzzle.TargetNumber, requiredCount);
+                break;
+            }
+            case InputMode.SinglePartition:
+            {
+                playerPartitions = _playerInput.GetManualPartition(puzzle.TargetNumber);
+                break;
+            }
+            default:
+                throw new NotImplementedException($"Unknown input mode: {puzzle.InputMode}");
         }
 
         bool isValid = true;
@@ -69,19 +78,18 @@ public class GameManager
             if (puzzle.ValidatePartition(partition))
                 continue;
 
-            _display.ShowPartitionInvalid(partition.ToString());
             isValid = false;
+            _display.ShowPartitionInvalid(partition.ToString());
             break;
         }
 
         if (isValid && puzzle.CheckSolution(playerPartitions))
         {
-            _display.ShowSuccess();
             _score++;
+            _display.ShowSuccess();
+            return;
         }
-        else
-        {
-            _display.ShowFailure(puzzle.CorrectPartitions.Select(p => p.ToString()));
-        }
+        
+        _display.ShowFailure(puzzle.CorrectPartitions.Select(p => p.ToString()));
     }
 }

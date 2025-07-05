@@ -28,14 +28,6 @@ public class PlayerInput
             _display.ShowPartitionPrompt(targetNumber, sum, targetNumber - sum);
             int num = _inputProvider.ReadNumber("");
             
-            if (num == 0)
-            {
-                if (sum == targetNumber)
-                    break;
-                _display.ShowErrorSumMismatch();
-                continue;
-            }
-            
             if (num < 0 || num > targetNumber)
             {
                 _display.ShowErrorOutOfRange();

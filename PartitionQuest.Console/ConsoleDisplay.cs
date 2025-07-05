@@ -8,20 +8,13 @@ public class ConsoleDisplay : IDisplay
     public void ShowWelcome()
     {
         Console.WriteLine("Добро пожаловать в Partition Quest!");
-    }
-
-    public void ShowGameRules()
-    {
         Console.WriteLine("Ваша задача - находить разбиения чисел согласно условиям.\n");
     }
 
-    public void ShowPuzzleHeader(int puzzleNumber)
+    public void ShowPuzzle(int number, PuzzleDescription model, int total)
     {
-        Console.WriteLine($"=== Задание {puzzleNumber} ===");
-    }
-
-    public void ShowPuzzleDescription(PuzzleDescription model)
-    {
+        Console.WriteLine($"=== Задание {number} ===");
+        
         switch (model)
         {
             case BasicPuzzleDescription b:
@@ -71,16 +64,13 @@ public class ConsoleDisplay : IDisplay
             default:
                 throw new NotImplementedException($"Неизвестный тип описания: {model.GetType().Name}");
         }
+        
+        Console.WriteLine($"Всего возможных разбиений: {total}");
     }
 
     public void ShowNeedAllPartitions(int count)
     {
         Console.WriteLine($"\nВам нужно найти все {count} разбиений.");
-    }
-
-    public void ShowTotalPartitions(int count)
-    {
-        Console.WriteLine($"Всего возможных разбиений: {count}");
     }
 
     public void ShowPartitionPrompt(int targetNumber, int sum, int remaining)
@@ -91,11 +81,6 @@ public class ConsoleDisplay : IDisplay
     public void ShowErrorInput()
     {
         Console.WriteLine("Некорректный ввод. Попробуйте еще раз.");
-    }
-
-    public void ShowErrorSumMismatch()
-    {
-        Console.WriteLine("Сумма не совпадает с целевым числом!");
     }
 
     public void ShowErrorOutOfRange()
@@ -148,6 +133,6 @@ public class ConsoleDisplay : IDisplay
 
     public void ShowManualPartitionIntro(int targetNumber)
     {
-        Console.WriteLine($"\nСобираем разбиение для числа {targetNumber}. Вводите числа по одному, 0 для завершения:");
+        Console.WriteLine($"\nСобираем разбиение для числа {targetNumber}. Вводите числа по одному:");
     }
 }

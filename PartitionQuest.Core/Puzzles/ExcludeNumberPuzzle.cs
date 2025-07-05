@@ -11,6 +11,7 @@ public class ExcludeNumberPuzzleDescription : PuzzleDescription
 public class ExcludeNumberPuzzle : Puzzle
 {
     public int ExcludedNumber { get; }
+    public override InputMode InputMode => InputMode.AllPartitions;
     public ExcludeNumberPuzzle(int targetNumber, int excludedNumber) : base(targetNumber)
     {
         ExcludedNumber = excludedNumber;

@@ -12,6 +12,7 @@ public abstract class Puzzle
 {
     public int TargetNumber { get; }
     public List<Partition> CorrectPartitions { get; protected set; } = null!;
+    public abstract InputMode InputMode { get; }
 
     protected Puzzle(int targetNumber)
     {

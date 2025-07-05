@@ -6,14 +6,10 @@ namespace PartitionQuest.Core.Display;
 public interface IDisplay
 {
     void ShowWelcome();
-    void ShowGameRules();
-    void ShowPuzzleHeader(int puzzleNumber);
-    void ShowPuzzleDescription(PuzzleDescription model);
+    void ShowPuzzle(int number, PuzzleDescription model, int total);
     void ShowNeedAllPartitions(int count);
-    void ShowTotalPartitions(int count);
     void ShowPartitionPrompt(int targetNumber, int sum, int remaining);
     void ShowErrorInput();
-    void ShowErrorSumMismatch();
     void ShowErrorOutOfRange();
     void ShowErrorOverflow();
     void ShowDuplicatePartition();

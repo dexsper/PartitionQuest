@@ -9,6 +9,8 @@ public class BasicPuzzleDescription : PuzzleDescription
 
 public class BasicPuzzle : Puzzle
 {
+    public override InputMode InputMode => InputMode.AllPartitions;
+
     public BasicPuzzle(int targetNumber) : base(targetNumber)
     {
     }
