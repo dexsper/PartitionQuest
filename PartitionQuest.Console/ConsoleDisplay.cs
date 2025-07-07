@@ -62,7 +62,7 @@ public class ConsoleDisplay : IDisplay
                 break;
             }
             default:
-                throw new NotImplementedException($"Неизвестный тип описания: {model.GetType().Name}");
+                throw new NotImplementedException($"Unknown type of description: {model.GetType().Name}");
         }
         
         Console.WriteLine($"Всего возможных разбиений: {total}");
