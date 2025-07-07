@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using PartitionQuest.Core.Display;
 using PartitionQuest.Core.Input;
 using PartitionQuest.Core.Models;
@@ -27,13 +28,13 @@ public class GameManager
         _puzzles.Add(puzzle);
     }
 
-    public void StartGame()
+    public async Task StartGame()
     {
         _display.ShowWelcome();
 
         foreach (var puzzle in _puzzles)
         {
-            PlayPuzzle(puzzle);
+            await PlayPuzzle(puzzle);
             _currentPuzzleIndex++;
 
             if (_currentPuzzleIndex < _puzzles.Count)
@@ -45,7 +46,7 @@ public class GameManager
         _display.ShowFinalScore(_score, _puzzles.Count);
     }
 
-    private void PlayPuzzle(Puzzle puzzle)
+    private async Task PlayPuzzle(Puzzle puzzle)
     {
         var current = _currentPuzzleIndex + 1;
         var total = puzzle.CorrectPartitions.Count;
@@ -60,12 +61,12 @@ public class GameManager
                 int requiredCount = puzzle.CorrectPartitions.Count;
 
                 _display.ShowNeedAllPartitions(requiredCount);
-                playerPartitions = _playerInput.GetMultiplePartitions(puzzle.TargetNumber, requiredCount);
+                playerPartitions = await _playerInput.GetMultiplePartitions(puzzle.TargetNumber, requiredCount);
                 break;
             }
             case InputMode.SinglePartition:
             {
-                playerPartitions = _playerInput.GetManualPartition(puzzle.TargetNumber);
+                playerPartitions = await _playerInput.GetManualPartition(puzzle.TargetNumber);
                 break;
             }
             default:

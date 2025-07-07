@@ -13,4 +13,4 @@ gameManager.AddPuzzle(new FixedLengthPuzzle(8, 3));
 gameManager.AddPuzzle(new ExcludeNumberPuzzle(9, 2));
 gameManager.AddPuzzle(new CombinationPuzzle(10, distinctNumbers: true, requiredCount: 3, excludedNumber: 1));
 
-gameManager.StartGame();
+await gameManager.StartGame();

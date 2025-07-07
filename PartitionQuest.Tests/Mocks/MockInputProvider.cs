@@ -11,11 +11,11 @@ public class MockInputProvider : IInputProvider
         _inputs = new Queue<int>(inputs);
     }
 
-    public int ReadNumber(string prompt)
+    public ValueTask<int> ReadNumberAsync(CancellationToken cancellationToken = default)
     {
         if (_inputs.Count == 0)
             throw new InvalidOperationException("No more test data to enter");
         
-        return _inputs.Dequeue();
+        return new ValueTask<int>(_inputs.Dequeue());
     }
 }

@@ -1,6 +1,9 @@
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace PartitionQuest.Core.Input;
 
 public interface IInputProvider
 {
-    int ReadNumber(string prompt);
+    ValueTask<int> ReadNumberAsync(CancellationToken cancellationToken = default);
 }

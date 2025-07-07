@@ -1,25 +1,36 @@
-using PartitionQuest.Core;
 using PartitionQuest.Core.Display;
 using PartitionQuest.Core.Input;
 
 namespace PartitionQuest;
 
-public class ConsoleInputProvider : IInputProvider
+public class ConsoleInputProvider : IInputProvider, IDisposable
 {
     private readonly IDisplay _display;
+    private readonly StreamReader _reader;
+    
     public ConsoleInputProvider(IDisplay display)
     {
         _display = display;
+        _reader = new StreamReader(Console.OpenStandardInput(), Console.InputEncoding);
     }
-    public int ReadNumber(string prompt)
+    
+    public async ValueTask<int> ReadNumberAsync(CancellationToken cancellationToken = default)
     {
-        int num;
-        _display.ShowPartitionPrompt(0, 0, 0);
-        while (!int.TryParse(Console.ReadLine(), out num))
+        while (!cancellationToken.IsCancellationRequested)
         {
+            string? line = await _reader.ReadLineAsync(cancellationToken);
+
+            if (int.TryParse(line, out int num))
+                return num;
+
             _display.ShowErrorInput();
-            _display.ShowPartitionPrompt(0, 0, 0);
         }
-        return num;
+        
+        throw new OperationCanceledException("Input canceled");
+    }
+
+    public void Dispose()
+    {
+        _reader.Dispose();
     }
 }
