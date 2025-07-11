@@ -1,0 +1,22 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" CanResize="False"
+        x:Class="PartitionQuest.UI.GameFinishWindow"
+        Title="PartitionQuest.UI"
+        Width="200"
+        Height="200"
+        WindowStartupLocation="CenterScreen">
+
+    <StackPanel Margin="20" Spacing="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock
+            x:Name="MessageTextBlock"
+            TextAlignment="Center"
+            TextWrapping="Wrap" />
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="10">
+            <Button Content="Новая игра" Width="80" Click="NewGame_Click" />
+        </StackPanel>
+    </StackPanel>
+</Window>

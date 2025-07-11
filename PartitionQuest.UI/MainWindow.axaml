@@ -1,0 +1,76 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" CanResize="False"
+        x:Class="PartitionQuest.UI.MainWindow"
+        Title="PartitionQuest.UI"
+        Width="300"
+        Height="250"
+        WindowStartupLocation="CenterScreen">
+    <StackPanel>
+        <StackPanel Margin="10" Spacing="5">
+            <TextBlock Name="PuzzleText"
+                       Text="Задание {0}, возможных разбиений: {1}"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       FontSize="12"
+                       FontWeight="Bold" />
+
+            <TextBlock Name="PuzzleDescText"
+                       Text="Только оложительные числа"
+                       HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       FontSize="12"
+                       FontWeight="Bold" />
+        </StackPanel>
+
+        <Grid Margin="20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Spacing="12">
+                <StackPanel>
+                    <TextBlock x:Name="PartitionText"
+                               Text="Разбиение #{0}"
+                               FontWeight="SemiBold"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center"
+                               FontSize="12" />
+                    <TextBlock x:Name="PromptText"
+                               Text="Разбейте {0} на {1} чисел."
+                               FontWeight="SemiBold"
+                               TextWrapping="Wrap"
+                               TextAlignment="Center"
+                               FontSize="12" />
+                </StackPanel>
+                <TextBox x:Name="InputBox"
+                         MaxLength="1"
+                         FontSize="12"
+                         HorizontalAlignment="Center"
+                         TextAlignment="Center"
+                         KeyDown="InputBox_OnKeyDown"/>
+
+                <TextBlock x:Name="ErrorText"
+                           Text=""
+                           FontWeight="SemiBold"
+                           TextWrapping="Wrap"
+                           TextAlignment="Center"
+                           FontSize="12"
+                           Foreground="Brown" />
+            </StackPanel>
+
+            <Button Grid.Row="2"
+                    x:Name="SubmitButton"
+                    Content="Ввод"
+                    Width="300"
+                    HorizontalAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Click="SubmitButton_OnClick" />
+        </Grid>
+    </StackPanel>
+
+</Window>

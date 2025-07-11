@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        </value>
+    </resheader>
+    <data name="PuzzleHeader" xml:space="preserve">
+        <value>Задание {0}, возможных разбиений: {1}</value>
+    </data>
+    <data name="BasicPuzzle" xml:space="preserve">
+        <value>Только положительные числа</value>
+    </data>
+    <data name="OddOnlyPuzzle" xml:space="preserve">
+        <value>Только нечетные числа</value>
+    </data>
+    <data name="DistinctPuzzle" xml:space="preserve">
+        <value>Только уникальные числа</value>
+    </data>
+    <data name="FixedLengthPuzzle" xml:space="preserve">
+        <value>Разбейте на {0} чисел.</value>
+    </data>
+    <data name="ExcludePuzzle" xml:space="preserve">
+        <value>Без использования числа {0}.</value>
+    </data>
+    <data name="CombinationOdd" xml:space="preserve">
+        <value>Только нечетные числа</value>
+    </data>
+    <data name="PartitionPrompt" xml:space="preserve">
+        <value>Текущая сумма: {0}. Осталось: {1}</value>
+    </data>
+    <data name="ErrorInput" xml:space="preserve">
+        <value>Некорректный ввод.</value>
+    </data>
+    <data name="DuplicatePartition" xml:space="preserve">
+        <value>Такое разбиение уже было введено!</value>
+    </data>
+    <data name="PartitionNumber" xml:space="preserve">
+        <value>Разбиение #{0}:</value>
+    </data>
+    <data name="PartitionInvalid" xml:space="preserve">
+        <value>Разбиение {0} не соответствует условиям задачи!</value>
+    </data>
+    <data name="Success" xml:space="preserve">
+        <value>Поздравляем! Все разбиения верны.</value>
+    </data>
+    <data name="FailureHeader" xml:space="preserve">
+        <value>К сожалению, есть ошибки. Вот правильные разбиения:</value>
+    </data>
+    <data name="FinalScore" xml:space="preserve">
+        <value>Игра завершена! Ваш итоговый счет: {0} из {1}</value>
+    </data>
+</root>

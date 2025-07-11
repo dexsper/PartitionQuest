@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartitionQuest.Tests", "Par
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartitionQuest.Core", "PartitionQuest.Core\PartitionQuest.Core.csproj", "{8C542E7C-82E5-4211-8606-24BA86AC45AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartitionQuest.UI", "PartitionQuest.UI\PartitionQuest.UI.csproj", "{3EA0161E-37E7-41C0-98EE-89DDD4ABD1B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8C542E7C-82E5-4211-8606-24BA86AC45AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C542E7C-82E5-4211-8606-24BA86AC45AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C542E7C-82E5-4211-8606-24BA86AC45AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EA0161E-37E7-41C0-98EE-89DDD4ABD1B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EA0161E-37E7-41C0-98EE-89DDD4ABD1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EA0161E-37E7-41C0-98EE-89DDD4ABD1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EA0161E-37E7-41C0-98EE-89DDD4ABD1B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

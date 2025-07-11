@@ -16,38 +16,42 @@ public class PlayerInput
         _display = display;
     }
 
-    public async ValueTask<List<Partition>> GetManualPartition(int targetNumber)
+    public async Task<List<Partition>> GetManualPartition(int targetNumber)
     {
-        _display.ShowManualPartitionIntro(targetNumber);
-
         var numbers = new List<int>();
         int sum = 0;
 
         while (sum < targetNumber)
         {
             _display.ShowPartitionPrompt(targetNumber, sum, targetNumber - sum);
-            int num = await _inputProvider.ReadNumberAsync();
+            int? num = await _inputProvider.ReadNumberAsync();
+
+            if (!num.HasValue)
+            {
+                _display.ShowInputError();
+                continue;
+            }
 
             if (num < 0 || num > targetNumber)
             {
-                _display.ShowErrorOutOfRange();
+                _display.ShowInputError();
                 continue;
             }
 
             if (sum + num > targetNumber)
             {
-                _display.ShowErrorOverflow();
+                _display.ShowInputError();
                 continue;
             }
 
-            numbers.Add(num);
-            sum += num;
+            numbers.Add(num.Value);
+            sum += num.Value;
         }
 
         return new List<Partition> { new(numbers) };
     }
 
-    public async ValueTask<List<Partition>> GetMultiplePartitions(int targetNumber, int count)
+    public async Task<List<Partition>> GetMultiplePartitions(int targetNumber, int count)
     {
         var partitions = new List<Partition>();
         int i = 0;

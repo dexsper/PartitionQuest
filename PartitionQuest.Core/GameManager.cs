@@ -30,17 +30,10 @@ public class GameManager
 
     public async Task StartGame()
     {
-        _display.ShowWelcome();
-
         foreach (var puzzle in _puzzles)
         {
             await PlayPuzzle(puzzle);
             _currentPuzzleIndex++;
-
-            if (_currentPuzzleIndex < _puzzles.Count)
-            {
-                _display.ShowNextPuzzle();
-            }
         }
 
         _display.ShowFinalScore(_score, _puzzles.Count);
@@ -59,8 +52,6 @@ public class GameManager
             case InputMode.AllPartitions:
             {
                 int requiredCount = puzzle.CorrectPartitions.Count;
-
-                _display.ShowNeedAllPartitions(requiredCount);
                 playerPartitions = await _playerInput.GetMultiplePartitions(puzzle.TargetNumber, requiredCount);
                 break;
             }
@@ -84,13 +75,9 @@ public class GameManager
             break;
         }
 
-        if (isValid && puzzle.CheckSolution(playerPartitions))
-        {
-            _score++;
-            _display.ShowSuccess();
+        if (!isValid || !puzzle.CheckSolution(playerPartitions))
             return;
-        }
         
-        _display.ShowFailure(puzzle.CorrectPartitions.Select(p => p.ToString()));
+        _score++;
     }
 }

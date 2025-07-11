@@ -5,12 +5,6 @@ namespace PartitionQuest;
 
 public class ConsoleDisplay : IDisplay
 {
-    public void ShowWelcome()
-    {
-        Console.WriteLine("Добро пожаловать в Partition Quest!");
-        Console.WriteLine("Ваша задача - находить разбиения чисел согласно условиям.\n");
-    }
-
     public void ShowPuzzle(int number, PuzzleDescription model, int total)
     {
         Console.WriteLine($"=== Задание {number} ===");
@@ -68,31 +62,16 @@ public class ConsoleDisplay : IDisplay
         Console.WriteLine($"Всего возможных разбиений: {total}");
     }
 
-    public void ShowNeedAllPartitions(int count)
-    {
-        Console.WriteLine($"\nВам нужно найти все {count} разбиений.");
-    }
-
     public void ShowPartitionPrompt(int targetNumber, int sum, int remaining)
     {
         Console.Write($"Текущая сумма: {sum}. Осталось: {remaining}. Введите число: ");
     }
 
-    public void ShowErrorInput()
+    public void ShowInputError()
     {
         Console.WriteLine("Некорректный ввод. Попробуйте еще раз.");
     }
-
-    public void ShowErrorOutOfRange()
-    {
-        Console.WriteLine("Число должно быть положительным и не превышать целевое число!");
-    }
-
-    public void ShowErrorOverflow()
-    {
-        Console.WriteLine("Превышение суммы! Попробуйте другое число.");
-    }
-
+    
     public void ShowDuplicatePartition()
     {
         Console.WriteLine("Такое разбиение уже было введено! Введите другое.");
@@ -108,31 +87,8 @@ public class ConsoleDisplay : IDisplay
         Console.WriteLine($"Разбиение {partition} не соответствует условиям задачи!");
     }
 
-    public void ShowSuccess()
-    {
-        Console.WriteLine("\nПоздравляем! Все разбиения верны.");
-    }
-
-    public void ShowFailure(IEnumerable<string> correctPartitions)
-    {
-        Console.WriteLine("\nК сожалению, есть ошибки. Вот правильные разбиения:");
-        
-        foreach (var part in correctPartitions)
-            Console.WriteLine(part);
-    }
-
-    public void ShowNextPuzzle()
-    {
-        Console.WriteLine("\nПереходим к следующему заданию...\n");
-    }
-
     public void ShowFinalScore(int score, int total)
     {
         Console.WriteLine($"\nИгра завершена! Ваш итоговый счет: {score} из {total}");
-    }
-
-    public void ShowManualPartitionIntro(int targetNumber)
-    {
-        Console.WriteLine($"\nСобираем разбиение для числа {targetNumber}. Вводите числа по одному:");
     }
 }
